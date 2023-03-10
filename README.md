@@ -1,5 +1,5 @@
 # Lines
-A React minimum practical boilerplate as of January 26, 2023.
+
 - create-react-app
 - typescript
 - sass (dart-sass)
@@ -12,7 +12,7 @@ A React minimum practical boilerplate as of January 26, 2023.
 ## Basic Usage
 ### Install & Run
 ```shell
-$ git remote add origin git@github.com:ts5h/lines.git
+$ git clone origin git@github.com:ts5h/lines.git
 $ yarn install
 $ yarn start
 ```
