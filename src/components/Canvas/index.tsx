@@ -3,16 +3,16 @@ import Styles from "../../scss/Canvas.module.scss";
 import { useDrawLines } from "../../hooks/useDrawLines";
 
 export const Canvas = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [isResizing, setIsResizing] = useState(false);
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const timerId = useRef<number | null>(null);
 
-  const { drawLines, initializeContext, reset } = useDrawLines({ windowWidth, windowHeight });
+  const { drawLines, initializeContext, reset } = useDrawLines();
 
-  useEffect(() => {
+  const handleResize = useCallback(() => {
+    if (timerId.current) {
+      window.clearTimeout(timerId.current);
+    }
+
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -20,31 +20,27 @@ export const Canvas = () => {
 
     if (!context) return;
 
-    context.canvas.width = windowWidth;
-    context.canvas.height = windowHeight;
-
-    initializeContext(context);
+    context.canvas.width = window.innerWidth;
+    context.canvas.height = window.innerHeight;
     reset();
-    if (!isResizing) {
-      drawLines();
-    }
-  }, [canvasRef, drawLines, initializeContext, isResizing, reset, windowWidth, windowHeight]);
-
-  const handleResize = useCallback(() => {
-    if (timerId.current) {
-      window.clearTimeout(timerId.current);
-    }
-
-    setIsResizing(true);
-    setWindowWidth(window.innerWidth);
-    setWindowHeight(window.innerHeight);
 
     timerId.current = window.setTimeout(() => {
-      setIsResizing(false);
+      drawLines();
     }, 500);
-  }, []);
+  }, [drawLines, reset]);
 
   // Initialize
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      initializeContext(context);
+    }
+  }, [initializeContext]);
+
   useEffect(() => {
     window.addEventListener("load", handleResize);
     window.addEventListener("resize", handleResize);
@@ -53,9 +49,7 @@ export const Canvas = () => {
       window.removeEventListener("load", handleResize);
       window.removeEventListener("resize", handleResize);
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [handleResize]);
 
   return (
     <div className={Styles.canvas}>
