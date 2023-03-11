@@ -27,19 +27,31 @@ export const useDrawLines = () => {
 
     const tmpPoints = points.map((point, index) => {
       const radian = point.angle * (Math.PI / 180);
-      const newLeft = point.left + Math.cos(radian) * point.speed;
-      const newTop = point.top + Math.sin(radian) * point.speed;
+      let newLeft = point.left + Math.cos(radian) * point.speed;
+      let newTop = point.top + Math.sin(radian) * point.speed;
 
       let collisionFlag = false;
       let newAngle = point.angle;
-      if (newLeft < 0 || window.innerWidth < newLeft) {
+      if (newLeft < 0 || newLeft > window.innerWidth) {
         newAngle = 180 - point.angle;
         collisionFlag = true;
+
+        if (newLeft < 0) {
+          newLeft = 0;
+        } else if (newLeft > window.innerWidth) {
+          newLeft = window.innerWidth;
+        }
       }
 
-      if (newTop < 0 || window.innerHeight < newTop) {
+      if (newTop < 0 || newTop > window.innerHeight) {
         newAngle = 360 - point.angle;
         collisionFlag = true;
+
+        if (newTop < 0) {
+          newTop = 0;
+        } else if (newTop > window.innerHeight) {
+          newTop = window.innerHeight;
+        }
       }
 
       return {
