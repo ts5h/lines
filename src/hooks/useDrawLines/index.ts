@@ -7,6 +7,7 @@ type Point = {
   angle: number;
   speed: number;
   collisionFlag: boolean;
+  isBass: boolean;
   midiNumber: number;
 };
 
@@ -48,6 +49,7 @@ export const useDrawLines = () => {
         speed: point.speed,
         collisionFlag,
         midiNumber: point.midiNumber,
+        isBass: point.isBass,
       } as Point;
     });
 
@@ -66,7 +68,7 @@ export const useDrawLines = () => {
         const fromPoint = points[i];
 
         if (fromPoint.collisionFlag) {
-          playSound(fromPoint.midiNumber, fromPoint.speed);
+          playSound(fromPoint.midiNumber, fromPoint.speed, fromPoint.isBass);
         }
 
         context.fillStyle = "rgba(68, 68, 68, 0.75)";
@@ -105,17 +107,18 @@ export const useDrawLines = () => {
     }
 
     const numberOfPoints = Math.floor(Math.random() * 80) + 40;
-
     const tmpPoints = [];
 
     for (let i = 0; i < numberOfPoints; i++) {
+      const bass = Math.random();
       const point: Point = {
         left: Math.random() * (window.innerWidth - pointRadius * 2) + pointRadius,
         top: Math.random() * (window.innerHeight - pointRadius * 2) + pointRadius,
         angle: Math.random() * 360,
-        speed: Math.random() < 0.9 ? Math.random() * 1.9 + 0.1 : Math.random() * 9.9 + 0.1,
+        speed: bass < 0.9 ? Math.random() * 1.9 + 0.1 : Math.random() * 9.9 + 0.1,
         collisionFlag: false,
-        midiNumber: Math.floor(Math.random() * 64),
+        isBass: bass < 0.9,
+        midiNumber: bass < 0.9 ? Math.floor(Math.random() * 32) + 12 : Math.floor(Math.random() * 32) + 24,
       };
 
       tmpPoints.push(point);
