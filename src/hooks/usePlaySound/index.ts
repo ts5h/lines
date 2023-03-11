@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from "react";
+import { useCallback, useMemo } from "react";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -9,26 +9,29 @@ export const usePlaySound = () => {
 
   const ctx = useMemo(() => new AudioContext(), []);
 
-  const playSound = useCallback((midiNumber: number, speed: number, isBass: boolean) => {
-    const seventh = isBass ? [midiNumber] : [midiNumber, midiNumber + 3, midiNumber + 7, midiNumber + 10];
-    const duration = isBass ? (10 - speed) * 0.5 : (10 - speed) * 0.25;
+  const playSound = useCallback(
+    (midiNumber: number, speed: number, isBass: boolean) => {
+      const seventh = isBass ? [midiNumber] : [midiNumber, midiNumber + 3, midiNumber + 7, midiNumber + 10];
+      const duration = isBass ? (10 - speed) * 0.5 : (10 - speed) * 0.25;
 
-    seventh.forEach((tone) => {
-      const osc = new OscillatorNode(ctx);
-      const amp = new GainNode(ctx);
+      seventh.forEach((tone) => {
+        const osc = new OscillatorNode(ctx);
+        const amp = new GainNode(ctx);
 
-      osc.type = "sine";
-      osc.frequency.value = getFrequency(tone);
-      amp.gain.value = 0.0005;
+        osc.type = "sine";
+        osc.frequency.value = getFrequency(tone);
+        amp.gain.value = 0.0005;
 
-      osc.connect(amp).connect(ctx.destination);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + duration);
+        osc.connect(amp).connect(ctx.destination);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + duration);
 
-      amp.gain.setValueAtTime(0.2, ctx.currentTime);
-      amp.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
-    });
-  }, [ctx, getFrequency]);
+        amp.gain.setValueAtTime(0.2, ctx.currentTime);
+        amp.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
+      });
+    },
+    [ctx, getFrequency]
+  );
 
   return {
     playSound,
