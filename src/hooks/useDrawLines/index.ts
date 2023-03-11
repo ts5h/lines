@@ -32,12 +32,12 @@ export const useDrawLines = () => {
 
       let collisionFlag = false;
       let newAngle = point.angle;
-      if (newLeft - pointRadius <= 0 || window.innerWidth <= newLeft + pointRadius) {
+      if (newLeft - pointRadius < 0 || window.innerWidth < newLeft + pointRadius) {
         newAngle = 180 - point.angle;
         collisionFlag = true;
       }
 
-      if (newTop - pointRadius <= 0 || window.innerHeight <= newTop + pointRadius) {
+      if (newTop - pointRadius < 0 || window.innerHeight < newTop + pointRadius) {
         newAngle = 360 - point.angle;
         collisionFlag = true;
       }
@@ -86,7 +86,7 @@ export const useDrawLines = () => {
           const length = Math.sqrt(xLength ** 2 + yLength ** 2);
 
           context.fillStyle = "transparent";
-          context.strokeStyle = `rgba(68, 68, 68, ${(1 - length / maxLength ** 0.83) * 0.8})`;
+          context.strokeStyle = `rgba(68, 68, 68, ${(1 - length / maxLength ** 0.83) * 0.9})`;
           context.lineWidth = lineWidth;
 
           context.beginPath();
