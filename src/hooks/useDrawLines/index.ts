@@ -32,12 +32,12 @@ export const useDrawLines = () => {
 
       let collisionFlag = false;
       let newAngle = point.angle;
-      if (newLeft - pointRadius < 0 || window.innerWidth < newLeft + pointRadius) {
+      if (newLeft < 0 || window.innerWidth < newLeft) {
         newAngle = 180 - point.angle;
         collisionFlag = true;
       }
 
-      if (newTop - pointRadius < 0 || window.innerHeight < newTop + pointRadius) {
+      if (newTop < 0 || window.innerHeight < newTop) {
         newAngle = 360 - point.angle;
         collisionFlag = true;
       }
