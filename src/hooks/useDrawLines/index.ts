@@ -21,7 +21,7 @@ export const useDrawLines = () => {
     if (!points) return;
 
     const tmpPoints = points.map((point, index) => {
-      const radian = point.angle * Math.PI / 180;
+      const radian = point.angle * (Math.PI / 180);
       const newLeft = point.left + Math.cos(radian) * point.speed;
       const newTop = point.top + Math.sin(radian) * point.speed;
 
@@ -49,7 +49,7 @@ export const useDrawLines = () => {
     if (!context) return;
 
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    
+
     if (points) {
       context.fillStyle = "transparent";
       context.strokeStyle = "rgba(68, 68, 68, 0.7)";
