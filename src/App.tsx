@@ -1,10 +1,10 @@
 import React from "react";
-import { Lines } from "./components/Lines";
+import { Canvas } from "./components/Canvas";
 import "./scss/App.scss";
 
 const App = () => (
   <div className="App">
-    <Lines />
+    <Canvas />
   </div>
 );
 
