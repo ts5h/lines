@@ -20,7 +20,7 @@ export const useDrawLines = (props: Props) => {
     context.clearRect(0, 0, windowWidth, windowHeight);
   }, [context, windowWidth, windowHeight]);
 
-  const draw = useCallback(() => {
+  const drawLines = useCallback(() => {
     if (!context) return;
 
     context.fillStyle = "#ff0000";
@@ -28,7 +28,7 @@ export const useDrawLines = (props: Props) => {
     context.arc(50, 100, 20, 0, 2 * Math.PI);
     context.fill();
 
-    requestRef.current = requestAnimationFrame(draw);
+    requestRef.current = requestAnimationFrame(drawLines);
   }, [context]);
 
   const initializeContext = useCallback((ctx: CanvasRenderingContext2D) => {
@@ -37,18 +37,19 @@ export const useDrawLines = (props: Props) => {
 
   // initialize
   useEffect(() => {
-    requestRef.current = requestAnimationFrame(draw);
+    requestRef.current = requestAnimationFrame(drawLines);
 
     return () => {
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current);
       }
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
-    draw,
+    drawLines,
     initializeContext,
     reset,
   };
