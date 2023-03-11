@@ -1,8 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Styles from "../../scss/Canvas.module.scss";
 
 export const Canvas = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const reset = useCallback((ctx: CanvasRenderingContext2D) => {
+    ctx.clearRect(0, 0, windowWidth, windowHeight);
+  }, [windowWidth, windowHeight]);
 
   const draw = (ctx: CanvasRenderingContext2D) => {
     ctx.fillStyle = "#ff0000";
@@ -11,6 +17,20 @@ export const Canvas = () => {
     ctx.fill();
   };
 
+  // useEffect(() => {
+  //   if (!canvasRef.current) return;
+  //
+  //   const canvas = canvasRef.current;
+  //   const context = canvas.getContext("2d");
+  //
+  //   if (!context) return;
+  //
+  //   requestAnimationFrame(() => {
+  //     draw(context);
+  //     console.log("test");
+  //   });
+  // }, [canvasRef]);
+
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -19,23 +39,16 @@ export const Canvas = () => {
 
     if (!context) return;
 
-    requestAnimationFrame(() => {
-      draw(context);
-    });
-  }, [canvasRef]);
+    context.canvas.width = windowWidth;
+    context.canvas.height = windowHeight;
+    reset(context);
+  }, [canvasRef, reset, windowWidth, windowHeight]);
 
   // Initialize
   useEffect(() => {
-    if (!canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-
-    if (!context) return;
-
     const handleResize = () => {
-      context.canvas.width = window.innerWidth;
-      context.canvas.height = window.innerHeight;
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
     };
 
     handleResize();
