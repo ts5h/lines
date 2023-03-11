@@ -7,7 +7,7 @@ export const usePlaySound = () => {
     return 2 ** ((midiNumber - 69) / 12) * 440;
   }, []);
 
-  const ctx = useMemo(() => new AudioContext(), []);
+  const audioCtx = useMemo(() => new AudioContext(), []);
 
   const playSound = useCallback(
     (midiNumber: number, speed: number, isBass: boolean) => {
@@ -15,22 +15,29 @@ export const usePlaySound = () => {
       const duration = isBass ? (10 - speed) * 0.5 : (10 - speed) * 0.25;
 
       seventh.forEach((tone) => {
-        const osc = new OscillatorNode(ctx);
-        const amp = new GainNode(ctx);
+        const osc = new OscillatorNode(audioCtx);
+        const amp = new GainNode(audioCtx);
+        const comp = new DynamicsCompressorNode(audioCtx, {
+          threshold: -27,
+          knee: 40,
+          ratio: 12,
+          attack: 0.005,
+          release: 0.5,
+        });
 
         osc.type = "sine";
         osc.frequency.value = getFrequency(tone);
-        amp.gain.value = 0.0005;
+        amp.gain.value = 0.0001;
 
-        osc.connect(amp).connect(ctx.destination);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + duration);
+        osc.connect(amp).connect(comp).connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + duration);
 
-        amp.gain.setValueAtTime(0.2, ctx.currentTime);
-        amp.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
+        amp.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        amp.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
       });
     },
-    [ctx, getFrequency]
+    [audioCtx, getFrequency]
   );
 
   return {
