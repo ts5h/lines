@@ -5,9 +5,12 @@ import { useDrawLines } from "../../hooks/useDrawLines";
 export const Canvas = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [isResizing, setIsResizing] = useState(false);
 
-  const { draw, reset } = useDrawLines({ windowWidth, windowHeight });
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const timerId = useRef<number | null>(null);
+
+  const { draw, initializeContext, reset } = useDrawLines({ windowWidth, windowHeight });
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -20,23 +23,37 @@ export const Canvas = () => {
     context.canvas.width = windowWidth;
     context.canvas.height = windowHeight;
 
-    reset(context);
-    draw(context);
-  }, [canvasRef, draw, reset, windowWidth, windowHeight]);
+    initializeContext(context);
+    reset();
+    if (!isResizing) {
+      draw();
+    }
+  }, [canvasRef, draw, initializeContext, isResizing, reset, windowWidth, windowHeight]);
+
+  const handleResize = useCallback(() => {
+    if (timerId.current) {
+      window.clearTimeout(timerId.current);
+    }
+
+    setIsResizing(true);
+    setWindowWidth(window.innerWidth);
+    setWindowHeight(window.innerHeight);
+
+    timerId.current = window.setTimeout(() => {
+      setIsResizing(false);
+    }, 500);
+  }, []);
 
   // Initialize
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      setWindowHeight(window.innerHeight);
-    };
-
-    handleResize();
+    window.addEventListener("load", handleResize);
     window.addEventListener("resize", handleResize);
 
     return () => {
+      window.removeEventListener("load", handleResize);
       window.removeEventListener("resize", handleResize);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

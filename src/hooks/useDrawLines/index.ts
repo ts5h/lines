@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Props = {
   windowWidth: number;
@@ -8,24 +8,48 @@ type Props = {
 export const useDrawLines = (props: Props) => {
   const { windowWidth, windowHeight } = props;
 
-  const reset = useCallback(
-    (ctx: CanvasRenderingContext2D) => {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, windowWidth, windowHeight);
-    },
-    [windowWidth, windowHeight]
-  );
+  const [context, setContext] = useState<CanvasRenderingContext2D>();
+  const requestRef = useRef<number | null>(null);
 
-  const draw = useCallback((ctx: CanvasRenderingContext2D) => {
-    console.log(ctx);
-    ctx.fillStyle = "#ff0000";
-    ctx.beginPath();
-    ctx.arc(50, 100, 20, 0, 2 * Math.PI);
-    ctx.fill();
+  const reset = useCallback(() => {
+    if (requestRef.current) {
+      cancelAnimationFrame(requestRef.current);
+    }
+
+    if (!context) return;
+    context.clearRect(0, 0, windowWidth, windowHeight);
+  }, [context, windowWidth, windowHeight]);
+
+  const draw = useCallback(() => {
+    if (!context) return;
+
+    context.fillStyle = "#ff0000";
+    context.beginPath();
+    context.arc(50, 100, 20, 0, 2 * Math.PI);
+    context.fill();
+
+    requestRef.current = requestAnimationFrame(draw);
+  }, [context]);
+
+  const initializeContext = useCallback((ctx: CanvasRenderingContext2D) => {
+    setContext(ctx);
+  }, []);
+
+  // initialize
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
     draw,
+    initializeContext,
     reset,
   };
 };
