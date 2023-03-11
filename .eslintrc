@@ -63,7 +63,8 @@
     "arrow-body-style": "off",
     "import/prefer-default-export": "off",
     "react/jsx-curly-brace-presence": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-plusplus": "off"
   },
   "settings": {
     "import/resolver": {
