@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useDrawLines } from "../../hooks/useDrawLines";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { Menu } from "../Menu";
+import { MenuHome } from "../Menu/Home";
 import Styles from "../../scss/Canvas.module.scss";
 
 export const Canvas = () => {
@@ -60,6 +61,7 @@ export const Canvas = () => {
   return (
     <div className={Styles.canvas}>
       <canvas ref={canvasRef} />
+      <MenuHome />
       <Menu />
     </div>
   );
