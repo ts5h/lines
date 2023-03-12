@@ -1,7 +1,9 @@
 import React from "react";
-import { GiSpeaker, GiSpeakerOff } from "react-icons/gi";
-import { AiFillGithub, AiOutlineReload } from "react-icons/ai";
 import { useAtom } from "jotai";
+import { AiFillGithub } from "react-icons/ai";
+import { Reload } from "../../icons/Reload";
+import { SoundOn } from "../../icons/Sound/On";
+import { SoundOff } from "../../icons/Sound/Off";
 import { soundFlagAtom } from "../../store/Atoms";
 import Styles from "../../scss/Menu.module.scss";
 
@@ -23,15 +25,15 @@ export const Menu = () => {
   return (
     <div className={Styles.wrapper}>
       <nav className={Styles.nav}>
-        <button type={"button"} className={Styles.sound} onClick={handleSound}>
-          {isSound ? (
-            <GiSpeaker className={`${Styles.icon} ${Styles.sound}`} title={"Sound On / Off"} />
-          ) : (
-            <GiSpeakerOff className={`${Styles.icon} ${Styles.sound}`} title={"Sound On / Off"} />
-          )}
+        <button type={"button"} onClick={handleSound}>
+          <span className={`${Styles.icon} ${Styles.sound}`} title={"Sound On / Off"}>
+            {isSound ? <SoundOn /> : <SoundOff />}
+          </span>
         </button>
         <button type={"button"} onClick={handleReload}>
-          <AiOutlineReload className={`${Styles.icon} ${Styles.reload}`} title={"Reload"} />
+          <span className={`${Styles.icon} ${Styles.reload}`} title={"Reload"}>
+            <Reload />
+          </span>
         </button>
         <button type={"button"} onClick={handleGitHub}>
           <AiFillGithub className={`${Styles.icon} ${Styles.reload}`} title={"GitHub"} />

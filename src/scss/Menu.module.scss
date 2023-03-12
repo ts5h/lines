@@ -26,10 +26,6 @@ button {
   button {
     padding: 4px;
 
-    &.sound {
-      padding: 1px;
-    }
-
     .icon {
       display: block;
       width: 16px;
@@ -41,11 +37,6 @@ button {
       &:hover {
         opacity: 1;
       }
-    }
-
-    .sound {
-      width: 22px;
-      height: 22px;
     }
   }
 }
