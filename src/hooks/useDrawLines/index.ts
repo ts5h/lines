@@ -124,7 +124,7 @@ export const useDrawLines = () => {
       cancelAnimationFrame(requestRef.current);
     }
 
-    const numberOfPoints = Math.floor(Math.random() * 60) + 40;
+    const numberOfPoints = Math.floor(Math.random() * 80) + 40;
     const tmpPoints = [];
 
     for (let i = 0; i < numberOfPoints; i++) {
