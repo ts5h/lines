@@ -1,9 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 import { AiFillGithub } from "react-icons/ai";
-import { Reload } from "../../icons/Reload";
-import { SoundOn } from "../../icons/Sound/On";
-import { SoundOff } from "../../icons/Sound/Off";
+import { Reload, SoundOn, SoundOff } from "../../icons";
 import { soundFlagAtom } from "../../store/Atoms";
 import Styles from "../../scss/Menu.module.scss";
 
@@ -26,7 +24,7 @@ export const Menu = () => {
     <div className={Styles.wrapper}>
       <nav className={Styles.nav}>
         <button type={"button"} onClick={handleSound}>
-          <span className={`${Styles.icon} ${Styles.sound}`} title={"Sound On / Off"}>
+          <span className={`${Styles.icon} ${Styles.sound}`} title={"Sound"}>
             {isSound ? <SoundOn /> : <SoundOff />}
           </span>
         </button>
