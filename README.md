@@ -1,13 +1,8 @@
 # Lines
+A generative motion graphic with React.
 
-- create-react-app
-- typescript
-- sass (dart-sass)
-- eslint (airbnb + my preferences *1)
-- prettier (with my few preferences *2)
+![lines_2](https://user-images.githubusercontent.com/1344010/224540219-0ffb673d-6bd8-4b90-a8c8-d69410493d6d.jpg)
 
-*1 See `./.eslintrc`  
-*2 See `./.prettierrc`
 
 ## Basic Usage
 ### Install & Run
