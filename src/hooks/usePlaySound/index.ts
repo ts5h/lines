@@ -24,16 +24,16 @@ export const usePlaySound = () => {
         const osc = new OscillatorNode(audioCtx);
         const amp = new GainNode(audioCtx);
         const comp = new DynamicsCompressorNode(audioCtx, {
-          threshold: -24,
+          threshold: -36,
           knee: 40,
-          ratio: 12,
-          attack: 0.05,
+          ratio: 20,
+          attack: 0.01,
           release: 1.0,
         });
 
         osc.type = "sine";
         osc.frequency.value = getFrequency(tone);
-        amp.gain.value = 0.01;
+        amp.gain.value = 0.1;
 
         osc.connect(amp).connect(comp).connect(audioCtx.destination);
         osc.start(audioCtx.currentTime);
