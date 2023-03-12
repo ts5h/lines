@@ -33,7 +33,7 @@ export const usePlaySound = () => {
 
         osc.type = "sine";
         osc.frequency.value = getFrequency(tone);
-        amp.gain.value = 0.1;
+        amp.gain.value = 0.05;
 
         osc.connect(amp).connect(comp).connect(audioCtx.destination);
         osc.start(audioCtx.currentTime);
