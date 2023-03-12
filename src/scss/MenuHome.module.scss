@@ -1,6 +1,46 @@
+// Reset default style
+button {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 .wrapper {
   position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s linear;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #444;
+  font-size: 12px;
+  line-height: 1;
+  padding: 8px;
+
+  .icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    opacity: 0.7;
+  }
 }
