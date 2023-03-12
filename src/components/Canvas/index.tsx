@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import Styles from "../../scss/Canvas.module.scss";
 import { useDrawLines } from "../../hooks/useDrawLines";
 import { useWindowSize } from "../../hooks/useWindowSize";
+import { Menu } from "../Menu";
+import Styles from "../../scss/Canvas.module.scss";
 
 export const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,6 +60,7 @@ export const Canvas = () => {
   return (
     <div className={Styles.canvas}>
       <canvas ref={canvasRef} />
+      <Menu />
     </div>
   );
 };
