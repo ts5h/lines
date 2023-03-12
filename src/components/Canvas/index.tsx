@@ -49,14 +49,14 @@ export const Canvas = () => {
   }, [initializeContext]);
 
   useEffect(() => {
-    window.addEventListener("load", handleResize);
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("load", handleResize);
       window.removeEventListener("resize", handleResize);
     };
-  }, [handleResize]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={Styles.canvas}>

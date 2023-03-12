@@ -10,11 +10,10 @@ export const useWindowSize = () => {
       setWinHeight(window.innerHeight);
     };
 
-    window.addEventListener("load", handleResize);
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("load", handleResize);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
