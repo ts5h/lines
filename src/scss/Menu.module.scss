@@ -11,11 +11,10 @@ button {
 
 .wrapper {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
+  right: 4px;
+  bottom: 4px;
   z-index: 10;
 
-  background-color: rgba(0, 0, 0, 0.05);
   font-size: 11px;
   line-height: 1;
 }
@@ -25,16 +24,28 @@ button {
   gap: 0;
 
   button {
-    padding: 8px;
+    padding: 4px;
+
+    &.sound {
+      padding: 1px;
+    }
 
     .icon {
       display: block;
       width: 16px;
       height: 16px;
-      overflow: hidden;
+      opacity: 0.75;
+
+      color: #444;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .sound {
+      width: 22px;
+      height: 22px;
     }
   }
-}
-
-.sound {
 }
