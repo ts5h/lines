@@ -1,8 +1,12 @@
 import { useCallback, useMemo } from "react";
+import { useAtom } from "jotai";
+import { soundFlagAtom } from "../../store/Atoms";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 export const usePlaySound = () => {
+  const [isSound, _] = useAtom(soundFlagAtom);
+
   const getFrequency = useCallback((midiNumber: number) => {
     return 2 ** ((midiNumber - 69) / 12) * 440;
   }, []);
@@ -11,6 +15,8 @@ export const usePlaySound = () => {
 
   const playSound = useCallback(
     (midiNumber: number, speed: number, isBass: boolean) => {
+      if (!isSound) return;
+
       const seventh = isBass ? [midiNumber] : [midiNumber, midiNumber + 3, midiNumber + 7, midiNumber + 10];
       const duration = isBass ? (10 - speed) * 0.5 : (10 - speed) * 0.25;
 
@@ -37,7 +43,7 @@ export const usePlaySound = () => {
         amp.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
       });
     },
-    [audioCtx, getFrequency]
+    [audioCtx, getFrequency, isSound]
   );
 
   return {
