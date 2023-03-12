@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlaySound } from "../usePlaySound";
+import { useWindowSize } from "../useWindowSize";
 
 type Point = {
   left: number;
@@ -12,12 +13,13 @@ type Point = {
 };
 
 export const useDrawLines = () => {
-  const { playSound } = usePlaySound();
-
   const [context, setContext] = useState<CanvasRenderingContext2D>();
   const [points, setPoints] = useState<Point[]>();
 
   const requestRef = useRef<number | null>(null);
+
+  const { winWidth, winHeight } = useWindowSize();
+  const { playSound } = usePlaySound();
 
   const lineWidth = 0.4;
   const pointRadius = 1.2;
@@ -32,25 +34,25 @@ export const useDrawLines = () => {
 
       let collisionFlag = false;
       let newAngle = point.angle;
-      if (newLeft < 0 || newLeft > window.innerWidth) {
+      if (newLeft < 0 || newLeft > winWidth) {
         newAngle = 180 - point.angle;
         collisionFlag = true;
 
         if (newLeft < 0) {
           newLeft = 0;
-        } else if (newLeft > window.innerWidth) {
-          newLeft = window.innerWidth;
+        } else if (newLeft > winWidth) {
+          newLeft = winWidth;
         }
       }
 
-      if (newTop < 0 || newTop > window.innerHeight) {
+      if (newTop < 0 || newTop > winHeight) {
         newAngle = 360 - point.angle;
         collisionFlag = true;
 
         if (newTop < 0) {
           newTop = 0;
-        } else if (newTop > window.innerHeight) {
-          newTop = window.innerHeight;
+        } else if (newTop > winHeight) {
+          newTop = winHeight;
         }
       }
 
@@ -66,15 +68,17 @@ export const useDrawLines = () => {
     });
 
     setPoints(tmpPoints);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points]);
 
   const drawLines = useCallback(() => {
     if (!context) return;
 
-    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    context.clearRect(0, 0, winWidth, winHeight);
 
     if (points) {
-      const maxLength = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
+      const maxLength = Math.sqrt(winWidth ** 2 + winHeight ** 2);
 
       for (let i = 0; i < points.length; i++) {
         const fromPoint = points[i];
@@ -111,6 +115,8 @@ export const useDrawLines = () => {
 
     update();
     requestRef.current = requestAnimationFrame(drawLines);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context, playSound, points, update]);
 
   const reset = useCallback(() => {
@@ -124,8 +130,8 @@ export const useDrawLines = () => {
     for (let i = 0; i < numberOfPoints; i++) {
       const bass = Math.random();
       const point: Point = {
-        left: Math.random() * (window.innerWidth - pointRadius * 2) + pointRadius,
-        top: Math.random() * (window.innerHeight - pointRadius * 2) + pointRadius,
+        left: Math.random() * (winWidth - pointRadius * 2) + pointRadius,
+        top: Math.random() * (winHeight - pointRadius * 2) + pointRadius,
         angle: Math.random() * 360,
         speed: bass < 0.9 ? Math.random() * 1.9 + 0.1 : Math.random() * 9.9 + 0.1,
         collisionFlag: false,
@@ -137,11 +143,15 @@ export const useDrawLines = () => {
     }
 
     setPoints(tmpPoints);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initializeContext = useCallback((ctx: CanvasRenderingContext2D) => {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.clearRect(0, 0, winWidth, winHeight);
     setContext(ctx);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // initialize

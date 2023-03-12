@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Styles from "../../scss/Canvas.module.scss";
 import { useDrawLines } from "../../hooks/useDrawLines";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 export const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const timerId = useRef<number | null>(null);
 
+  const { winWidth, winHeight } = useWindowSize();
   const { drawLines, initializeContext, reset } = useDrawLines();
 
   const handleResize = useCallback(() => {
@@ -20,13 +22,16 @@ export const Canvas = () => {
 
     if (!context) return;
 
-    context.canvas.width = window.innerWidth;
-    context.canvas.height = window.innerHeight;
+    // NOTE: Do not include winWidth and winHeight in dependencies because the values are not updated properly on resize
+    context.canvas.width = winWidth;
+    context.canvas.height = winHeight;
     reset();
 
     timerId.current = window.setTimeout(() => {
       drawLines();
     }, 500);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawLines, reset]);
 
   // Initialize
