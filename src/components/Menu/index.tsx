@@ -20,13 +20,13 @@ export const Menu = () => {
     <div className={Styles.wrapper}>
       <nav className={Styles.nav}>
         <button type={"button"} className={Styles.sound} onClick={handleSound}>
-          <GiSpeaker className={`${Styles.icon} ${Styles.sound}`} />
+          <GiSpeaker className={`${Styles.icon} ${Styles.sound}`} title={"Sound On / Off"} />
         </button>
         <button type={"button"} onClick={handleReload}>
-          <AiOutlineReload className={`${Styles.icon} ${Styles.reload}`} />
+          <AiOutlineReload className={`${Styles.icon} ${Styles.reload}`} title={"Reload"} />
         </button>
         <button type={"button"} onClick={handleGitHub}>
-          <AiFillGithub className={`${Styles.icon} ${Styles.reload}`} />
+          <AiFillGithub className={`${Styles.icon} ${Styles.reload}`} title={"GitHub"} />
         </button>
       </nav>
     </div>
