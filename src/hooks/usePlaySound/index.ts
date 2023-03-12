@@ -21,13 +21,13 @@ export const usePlaySound = () => {
           threshold: -27,
           knee: 40,
           ratio: 12,
-          attack: 0.005,
+          attack: 0.01,
           release: 0.5,
         });
 
         osc.type = "sine";
         osc.frequency.value = getFrequency(tone);
-        amp.gain.value = 0.0001;
+        amp.gain.value = 0.00001;
 
         osc.connect(amp).connect(comp).connect(audioCtx.destination);
         osc.start(audioCtx.currentTime);
