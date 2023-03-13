@@ -5,7 +5,7 @@ import { soundFlagAtom } from "../../../store/Atoms";
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 export const usePlaySound = () => {
-  const [isSound, _] = useAtom(soundFlagAtom);
+  const [isSound, setIsSound] = useAtom(soundFlagAtom);
 
   const getFrequency = useCallback((midiNumber: number) => {
     return 2 ** ((midiNumber - 69) / 12) * 440;

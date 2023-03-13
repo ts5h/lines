@@ -27,7 +27,7 @@ export const useDrawLines = () => {
   const update = useCallback(() => {
     if (!points) return;
 
-    const tmpPoints = points.map((point, index) => {
+    const tmpPoints = points.map((point) => {
       const radian = point.angle * (Math.PI / 180);
       let newLeft = point.left + Math.cos(radian) * point.speed;
       let newTop = point.top + Math.sin(radian) * point.speed;
