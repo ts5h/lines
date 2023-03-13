@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlaySound } from "../usePlaySound";
-import { useWindowSize } from "../useWindowSize";
+import { useWindowSize } from "../../../hooks/useWindowSize";
 
 type Point = {
   left: number;

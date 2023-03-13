@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useAtom } from "jotai";
-import { soundFlagAtom } from "../../store/Atoms";
+import { soundFlagAtom } from "../../../store/Atoms";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
