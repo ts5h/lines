@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { isMobileOnly } from "react-device-detect";
 import { usePlaySound } from "../usePlaySound";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 
@@ -124,19 +125,23 @@ export const useDrawLines = () => {
       cancelAnimationFrame(requestRef.current);
     }
 
-    const numberOfPoints = Math.floor(Math.random() * 80) + 40;
+    const normalSpeedMax = isMobileOnly ? 0.9 : 1.9;
+    const highSpeedMax = isMobileOnly ? 7.4 : 9.9;
+    const pointsMax = isMobileOnly ? 20 : 80;
+
+    const numberOfPoints = Math.floor(Math.random() * pointsMax) + 40;
     const tmpPoints = [];
 
     for (let i = 0; i < numberOfPoints; i++) {
-      const bass = Math.random();
+      const isBass = Math.random();
       const point: Point = {
         left: Math.random() * (winWidth - pointRadius * 2) + pointRadius,
         top: Math.random() * (winHeight - pointRadius * 2) + pointRadius,
         angle: Math.random() * 360,
-        speed: bass < 0.9 ? Math.random() * 1.9 + 0.1 : Math.random() * 9.9 + 0.1,
+        speed: isBass < 0.9 ? Math.random() * normalSpeedMax + 0.1 : Math.random() * highSpeedMax + 0.1,
         collisionFlag: false,
-        isBass: bass < 0.9,
-        midiNumber: bass < 0.9 ? Math.floor(Math.random() * 32) + 12 : Math.floor(Math.random() * 32) + 24,
+        isBass: isBass < 0.9,
+        midiNumber: isBass < 0.9 ? Math.floor(Math.random() * 32) + 12 : Math.floor(Math.random() * 32) + 24,
       };
 
       tmpPoints.push(point);
