@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useAtom } from "jotai/index";
-import { isMobile } from "react-device-detect";
-import { soundFlagAtom } from "../../../../store/Atoms";
+import { useAtom } from "jotai";
+import { isIOS, isMobile } from "react-device-detect";
+import { audioContextAtom, soundFlagAtom } from "../../../../store/Atoms";
 import { SoundOff, SoundOn } from "../../../../icons";
 import Styles from "../../../../scss/Menu.module.scss";
 
 export const MenuButtonSound = () => {
+  const [audioContext, setAudioContext] = useAtom(audioContextAtom);
   const [isSound, setIsSound] = useAtom(soundFlagAtom);
   const [isHover, setIsHover] = useState(false);
+  const [isFirstTouch, setIsFirstTouch] = useState(true);
 
   const handleHover = (state: boolean) => {
     if (isMobile) return;
@@ -17,6 +19,18 @@ export const MenuButtonSound = () => {
   const handleTouch = (state: boolean) => {
     if (!isMobile) return;
     setIsHover(state);
+
+    if (isIOS && isFirstTouch) {
+      const source = audioContext.createBufferSource();
+      source.buffer = audioContext.createBuffer(1, 1, 22500);
+      source.onended = () => source.disconnect();
+
+      source.connect(audioContext.destination);
+      source.start(0);
+      source.stop(0.001);
+    }
+
+    setIsFirstTouch(false);
   };
 
   const handleClick = () => {

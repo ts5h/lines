@@ -1,17 +1,16 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useAtom } from "jotai";
-import { soundFlagAtom } from "../../../store/Atoms";
+import { audioContextAtom, soundFlagAtom } from "../../../store/Atoms";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 export const usePlaySound = () => {
+  const [audioContext, setAudioContext] = useAtom(audioContextAtom);
   const [isSound, setIsSound] = useAtom(soundFlagAtom);
 
   const getFrequency = useCallback((midiNumber: number) => {
     return 2 ** ((midiNumber - 69) / 12) * 440;
   }, []);
-
-  const audioContext = useMemo(() => new AudioContext(), []);
 
   const playSound = useCallback(
     (midiNumber: number, speed: number, isBass: boolean) => {
@@ -38,6 +37,7 @@ export const usePlaySound = () => {
         if (oscillator.frequency.value <= 55) return;
 
         gain.gain.value = oscillator.frequency.value < 120 ? 0.0001 : 0.01;
+        gain.gain.value = 1.0;
 
         oscillator.connect(gain).connect(compressor).connect(audioContext.destination);
         oscillator.start(audioContext.currentTime);
@@ -45,6 +45,11 @@ export const usePlaySound = () => {
 
         gain.gain.setValueAtTime(0.2, audioContext.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + duration);
+
+        oscillator.onended = () => {
+          oscillator.disconnect();
+          gain.disconnect();
+        };
       });
     },
     [audioContext, getFrequency, isSound]
