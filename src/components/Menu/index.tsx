@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { AiFillGithub } from "react-icons/ai";
 import { Reload, SoundOn, SoundOff } from "../../icons";
+import { MenuButtonGitHub } from "./Button/GitHub";
 import { soundFlagAtom } from "../../store/Atoms";
 import Styles from "../../scss/Menu.module.scss";
 
@@ -29,13 +29,11 @@ export const Menu = () => {
           </span>
         </button>
         <button type={"button"} onClick={handleReload}>
-          <span className={`${Styles.icon} ${Styles.reload}`} title={"Reload"}>
+          <span className={Styles.icon} title={"Reload"}>
             <Reload />
           </span>
         </button>
-        <button type={"button"} onClick={handleGitHub}>
-          <AiFillGithub className={`${Styles.icon} ${Styles.reload}`} title={"GitHub"} />
-        </button>
+        <MenuButtonGitHub />
       </nav>
     </div>
   );
