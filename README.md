@@ -1,5 +1,5 @@
 # Lines
-A generative motion graphic with React.
+A generative motion graphic with React.  
 https://0bjekt.co/2023/composition/
 
 ![lines_2](https://user-images.githubusercontent.com/1344010/224540219-0ffb673d-6bd8-4b90-a8c8-d69410493d6d.jpg)
