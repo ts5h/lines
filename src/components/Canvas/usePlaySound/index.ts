@@ -2,10 +2,8 @@ import { useCallback } from "react";
 import { useAtom } from "jotai";
 import { audioContextAtom, soundFlagAtom } from "../../../store/Atoms";
 
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-
 export const usePlaySound = () => {
-  const [audioContext, setAudioContext] = useAtom(audioContextAtom);
+  const [audioContext, setAudioContext] = useAtom<AudioContext>(audioContextAtom);
   const [isSound, setIsSound] = useAtom(soundFlagAtom);
 
   const getFrequency = useCallback((midiNumber: number) => {

@@ -6,7 +6,7 @@ import { SoundOff, SoundOn } from "../../../../icons";
 import Styles from "../../../../scss/Menu.module.scss";
 
 export const MenuButtonSound = () => {
-  const [audioContext, setAudioContext] = useAtom(audioContextAtom);
+  const [audioContext, setAudioContext] = useAtom<AudioContext>(audioContextAtom);
   const [isSound, setIsSound] = useAtom(soundFlagAtom);
   const [isHover, setIsHover] = useState(false);
   const [isFirstTouch, setIsFirstTouch] = useState(true);
