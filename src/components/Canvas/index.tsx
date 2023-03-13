@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import { useDrawLines } from "../../hooks/useDrawLines";
+import { useDrawLines } from "./useDrawLines";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { Menu } from "../Menu";
 import { MenuHome } from "../Menu/Home";
