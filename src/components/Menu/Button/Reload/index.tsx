@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { isMobile } from "react-device-detect";
+import { isIOS, isMobile } from "react-device-detect";
 import { Reload } from "../../../../icons";
 import Styles from "../../../../scss/Menu.module.scss";
 
@@ -19,6 +19,10 @@ export const MenuButtonReload = () => {
   const handleClick = () => {
     window.location.reload();
   };
+
+  if (isIOS) {
+    return null;
+  }
 
   return (
     <button
