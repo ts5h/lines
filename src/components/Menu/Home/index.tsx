@@ -1,43 +1,11 @@
-import React, { useState } from "react";
-import { isMobile } from "react-device-detect";
-import { ArrowBackToHome } from "../../../icons";
+import React from "react";
+import { MenuButtonHome } from "../Button/Home";
 import Styles from "../../../scss/MenuHome.module.scss";
 
 export const MenuHome = () => {
-  const [isHover, setIsHover] = useState(false);
-
-  const handleHover = (state: boolean) => {
-    if (isMobile) return;
-    setIsHover(state);
-  };
-
-  const handleTouch = (state: boolean) => {
-    if (!isMobile) return;
-    setIsHover(state);
-  };
-
-  const handleClick = () => {
-    window.location.href = "/";
-  };
-
   return (
     <div className={Styles.wrapper}>
-      <button
-        type={"button"}
-        className={`${Styles.menu} ${isHover ? Styles.on : ""}`}
-        onMouseOver={() => handleHover(true)}
-        onMouseOut={() => handleHover(false)}
-        onFocus={() => handleHover(true)}
-        onBlur={() => handleHover(false)}
-        onTouchStart={() => handleTouch(true)}
-        onTouchEnd={() => handleTouch(false)}
-        onClick={handleClick}
-      >
-        <div className={Styles.icon}>
-          <ArrowBackToHome />
-        </div>
-        <p>HOME</p>
-      </button>
+      <MenuButtonHome />
     </div>
   );
 };
