@@ -4,7 +4,7 @@
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentSize": 2,
-    "lineWidth": 120,
+    "lineWidth": 80,
     "ignore": []
   }
 }
