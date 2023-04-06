@@ -92,13 +92,7 @@ export const useDrawLines = () => {
         context.strokeStyle = "transparent";
 
         context.beginPath();
-        context.arc(
-          fromPoint.left,
-          fromPoint.top,
-          pointRadius,
-          0,
-          (360 * Math.PI) / 180,
-        );
+        context.arc(fromPoint.left, fromPoint.top, pointRadius, 0, (360 * Math.PI) / 180);
         context.fill();
 
         for (let j = i + 1; j < points.length; j++) {
@@ -109,9 +103,7 @@ export const useDrawLines = () => {
           const length = Math.sqrt(xLength ** 2 + yLength ** 2);
 
           context.fillStyle = "transparent";
-          context.strokeStyle = `rgba(68, 68, 68, ${
-            (1 - length / maxLength ** 0.83) * 0.9
-          })`;
+          context.strokeStyle = `rgba(68, 68, 68, ${(1 - length / maxLength ** 0.83) * 0.9})`;
           context.lineWidth = lineWidth;
 
           context.beginPath();
@@ -146,16 +138,10 @@ export const useDrawLines = () => {
         left: Math.random() * (winWidth - pointRadius * 2) + pointRadius,
         top: Math.random() * (winHeight - pointRadius * 2) + pointRadius,
         angle: Math.random() * 360,
-        speed:
-          isBass < 0.9
-            ? Math.random() * normalSpeedMax + 0.1
-            : Math.random() * highSpeedMax + 0.1,
+        speed: isBass < 0.9 ? Math.random() * normalSpeedMax + 0.1 : Math.random() * highSpeedMax + 0.1,
         collisionFlag: false,
         isBass: isBass < 0.9,
-        midiNumber:
-          isBass < 0.9
-            ? Math.floor(Math.random() * 32) + 12
-            : Math.floor(Math.random() * 32) + 24,
+        midiNumber: isBass < 0.9 ? Math.floor(Math.random() * 32) + 12 : Math.floor(Math.random() * 32) + 24,
       };
 
       tmpPoints.push(point);
