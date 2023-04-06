@@ -3,7 +3,8 @@ import { useAtom } from "jotai";
 import { audioContextAtom, soundFlagAtom } from "../../../store/Atoms";
 
 export const usePlaySound = () => {
-  const [audioContext, setAudioContext] = useAtom<AudioContext>(audioContextAtom);
+  const [audioContext, setAudioContext] =
+    useAtom<AudioContext>(audioContextAtom);
   const [isSound, setIsSound] = useAtom(soundFlagAtom);
 
   const getFrequency = useCallback((midiNumber: number) => {
@@ -14,7 +15,9 @@ export const usePlaySound = () => {
     (midiNumber: number, speed: number, isBass: boolean) => {
       if (!isSound) return;
 
-      const chord = isBass ? [midiNumber] : [midiNumber, midiNumber + 3, midiNumber + 7, midiNumber + 10];
+      const chord = isBass
+        ? [midiNumber]
+        : [midiNumber, midiNumber + 3, midiNumber + 7, midiNumber + 10];
       const duration = isBass ? (10 - speed) * 0.5 : (10 - speed) * 0.25;
 
       const compressor = new DynamicsCompressorNode(audioContext, {
@@ -37,12 +40,18 @@ export const usePlaySound = () => {
         gain.gain.value = oscillator.frequency.value < 120 ? 0.0001 : 0.01;
         gain.gain.value = 1.0;
 
-        oscillator.connect(gain).connect(compressor).connect(audioContext.destination);
+        oscillator
+          .connect(gain)
+          .connect(compressor)
+          .connect(audioContext.destination);
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + duration);
 
         gain.gain.setValueAtTime(0.2, audioContext.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + duration);
+        gain.gain.exponentialRampToValueAtTime(
+          0.00001,
+          audioContext.currentTime + duration,
+        );
 
         oscillator.onended = () => {
           oscillator.disconnect();
@@ -50,7 +59,7 @@ export const usePlaySound = () => {
         };
       });
     },
-    [audioContext, getFrequency, isSound]
+    [audioContext, getFrequency, isSound],
   );
 
   return {
