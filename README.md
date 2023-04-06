@@ -81,3 +81,6 @@ $ ncu -u
 $ npm install
 ```
 
+## License
+[MIT](./LICENSE)
+
